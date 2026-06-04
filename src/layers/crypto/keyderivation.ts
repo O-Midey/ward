@@ -14,19 +14,26 @@ export function generateSalt(): string {
 
 export async function deriveKey(password: string, saltBase64: string): Promise<CryptoKey> {
   const encoder = new TextEncoder();
+  const pwBytes = encoder.encode(password);
+  const pwBuf = toArrayBuffer(pwBytes);
   const passwordKey = await crypto.subtle.importKey(
     'raw',
-    encoder.encode(password),
+    pwBuf,
     'PBKDF2', false, ['deriveKey'],
   );
-  const salt = base64ToBuffer(saltBase64);
+  const saltBytes = base64ToBuffer(saltBase64);
+  const saltBuf = toArrayBuffer(saltBytes);
   return crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt, iterations: ITERATIONS, hash: HASH },
+    { name: 'PBKDF2', salt: saltBuf, iterations: ITERATIONS, hash: HASH },
     passwordKey,
     { name: 'AES-GCM', length: KEY_LENGTH },
     false,
     ['encrypt', 'decrypt'],
   );
+}
+
+function toArrayBuffer(view: Uint8Array): ArrayBuffer {
+  return view.buffer.slice(view.byteOffset, view.byteOffset + view.byteLength) as ArrayBuffer;
 }
 
 function bufferToBase64(buf: Uint8Array): string {
