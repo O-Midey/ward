@@ -1,26 +1,289 @@
 @import "tailwindcss";
 
+/* =====================================================
+   Ward Design System — "Ink" Palette
+   Cool slate neutrals + electric-blue accent.
+   ===================================================== */
+
+@theme {
+  --color-bg: var(--c-bg);
+  --color-surface: var(--c-surface);
+  --color-surface-2: var(--c-surface-2);
+  --color-text: var(--c-text);
+  --color-text-secondary: var(--c-text-secondary);
+  --color-text-tertiary: var(--c-text-tertiary);
+  --color-accent: var(--c-accent);
+  --color-accent-bright: var(--c-accent-bright);
+  --color-accent-soft: var(--c-accent-soft);
+  --color-on-accent: var(--c-on-accent);
+  --color-border: var(--c-border);
+  --color-success: var(--c-success);
+  --color-success-subtle: var(--c-success-subtle);
+  --color-warning: var(--c-warning);
+  --color-warning-subtle: var(--c-warning-subtle);
+  --color-danger: var(--c-danger);
+  --color-danger-subtle: var(--c-danger-subtle);
+
+  --font-display: var(--font-playfair), Georgia, serif;
+  --font-body: var(--font-source), system-ui, sans-serif;
+  --font-mono: var(--font-jetbrains), ui-monospace, monospace;
+
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+
+  --ease-out: cubic-bezier(0.22, 0.61, 0.36, 1);
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+/* ---- Light Theme ---- */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --c-bg: #f2f4f9;
+  --c-surface: #ffffff;
+  --c-surface-2: #eaecf4;
+  --c-text: #0f1220;
+  --c-text-secondary: #4f546a;
+  --c-text-tertiary: #94989f;
+  --c-accent: #2563eb;
+  --c-accent-bright: #1d4ed8;
+  --c-accent-soft: #dbeafe;
+  --c-on-accent: #ffffff;
+  --c-border: rgba(19, 22, 35, 0.08);
+  --c-border-strong: rgba(19, 22, 35, 0.14);
+  --c-success: #16a34a;
+  --c-success-subtle: rgba(22, 163, 74, 0.1);
+  --c-warning: #d97706;
+  --c-warning-subtle: rgba(217, 119, 6, 0.1);
+  --c-danger: #dc2626;
+  --c-danger-subtle: rgba(220, 38, 38, 0.1);
+
+  --shadow-sm: 0 1px 3px rgba(15, 18, 32, 0.06), 0 1px 2px rgba(15, 18, 32, 0.04);
+  --shadow-md: 0 4px 16px -2px rgba(15, 18, 32, 0.09), 0 2px 6px -1px rgba(15, 18, 32, 0.05);
+  --shadow-lg: 0 20px 60px -12px rgba(15, 18, 32, 0.2), 0 8px 20px -8px rgba(15, 18, 32, 0.08);
+  --shadow-accent: 0 8px 28px -4px rgba(37, 99, 235, 0.38);
+  --shadow-card: 0 1px 3px rgba(15, 18, 32, 0.06), 0 0 0 1px rgba(19, 22, 35, 0.07);
+
+  --grad-hero: radial-gradient(160% 180% at 15% -15%, #3b82f6 0%, #1e40af 50%, #111c54 100%);
+  --grad-accent: linear-gradient(145deg, #3b82f6 0%, #1d4ed8 100%);
+  --ring-focus: 0 0 0 3px rgba(37, 99, 235, 0.3);
+
+  /* Desktop backdrop behind the phone frame */
+  --c-desktop-bg: #dfe3ec;
+
+  /* Phone frame shell (the device is always a dark bezel) */
+  --c-frame-shell: #1a1a1f;
+  --c-frame-border: rgba(255,255,255,0.14);
+  --c-frame-inner: rgba(255,255,255,0.07);
+  --c-frame-btn: #2a2a30;
+
+  /* Noise texture for hero surfaces */
+  --noise: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* ---- Base ---- */
+@layer base {
+  * {
+    -webkit-tap-highlight-color: transparent;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  html {
+    font-family: var(--font-body);
+    font-size: 16px;
+    color: var(--c-text);
+    background: var(--c-bg);
+  }
+  body {
+    overscroll-behavior: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  /* Hide scrollbars app-wide while keeping scroll behavior intact */
+  * {
+    scrollbar-width: none;        /* Firefox */
+    -ms-overflow-style: none;     /* legacy Edge/IE */
+  }
+  *::-webkit-scrollbar {
+    width: 0;
+    height: 0;
+    display: none;                /* Chrome, Safari, WebKit */
+  }
+  :focus-visible {
+    outline: none;
+    box-shadow: var(--ring-focus);
+    border-radius: var(--radius-sm);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation-duration: 0.001ms !important;
+      transition-duration: 0.001ms !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---- Custom components ---- */
+@layer components {
+  .card {
+    background: var(--c-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+  .card-elevated {
+    background: var(--c-surface);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-md);
+  }
+  .press {
+    transition: transform 0.13s var(--ease-out), opacity 0.13s var(--ease-out);
+  }
+  .press:active {
+    transform: scale(0.965);
+    opacity: 0.8;
+  }
+  .skeleton {
+    background: linear-gradient(
+      100deg,
+      var(--c-surface-2) 30%,
+      color-mix(in srgb, var(--c-surface-2) 60%, var(--c-surface)) 50%,
+      var(--c-surface-2) 70%
+    );
+    background-size: 200% 100%;
+    border-radius: var(--radius-md);
+    animation: skeleton-sweep 1.6s ease-in-out infinite;
+  }
+  .sheet-backdrop {
+    background: rgba(5, 6, 12, 0.55);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+  }
+  .chrome-blur {
+    background: color-mix(in srgb, var(--c-bg) 82%, transparent);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
+  }
+  /* Noise overlay for hero cards */
+  .hero-noise::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background-image: var(--noise);
+    background-size: 180px 180px;
+    opacity: 0.028;
+    pointer-events: none;
+    mix-blend-mode: overlay;
+  }
+  /* Subtle inner highlight on primary surfaces */
+  .surface-shine::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(165deg, rgba(255,255,255,0.12) 0%, transparent 55%);
+    pointer-events: none;
+  }
 }
+
+@keyframes skeleton-sweep {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1; }
+}
+
+/* ---- Phone shell — mobile full-bleed, desktop device frame ---- */
+
+/* Mobile: transparent pass-through, island is just a zero-height block */
+.phone-desktop-wrap { width: 100%; height: 100dvh; overflow: hidden; }
+.phone-frame        { width: 100%; height: 100%; }
+.phone-screen       { width: 100%; height: 100%; overflow: hidden; position: relative; background: transparent; display: flex; flex-direction: column; }
+/* The island/notch floats ABOVE the page content (covers it) and never
+   consumes layout space, so screen backgrounds paint full-bleed behind it.
+   pointer-events: none keeps it from blocking any taps underneath. */
+.phone-island {
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: env(safe-area-inset-top, 0px);
+  z-index: 50;
+  pointer-events: none;
+}
+
+@media (min-width: 640px) {
+  html, body { height: 100%; overflow: hidden; }
+
+  .phone-desktop-wrap {
+    position: fixed; inset: 0; display: flex;
+    align-items: center; justify-content: center;
+    background: var(--c-desktop-bg);
+  }
+
+  .phone-frame {
+    position: relative;
+    width: 393px; height: 852px;
+    flex-shrink: 0; border-radius: 54px;
+    background: var(--c-frame-shell);
+    box-shadow:
+      inset 0 0 0 1.5px var(--c-frame-border),
+      0 0 0 1px rgba(0,0,0,0.45),
+      0 40px 100px -16px rgba(0,0,0,0.65),
+      0 16px 40px -8px rgba(0,0,0,0.35);
+    transform-origin: center center;
+    overflow: hidden;
+    max-height: calc(100vh - 40px);
+  }
+
+  /* Volume buttons */
+  .phone-frame::before {
+    content: ''; position: absolute;
+    left: -4px; top: 148px; width: 4px; height: 34px;
+    background: var(--c-frame-btn); border-radius: 3px 0 0 3px;
+    box-shadow: 0 54px 0 var(--c-frame-btn);
+    pointer-events: none; z-index: 5;
+  }
+  /* Power button */
+  .phone-frame::after {
+    content: ''; position: absolute;
+    right: -4px; top: 188px; width: 4px; height: 72px;
+    background: var(--c-frame-btn); border-radius: 0 3px 3px 0;
+    pointer-events: none; z-index: 5;
+  }
+
+  .phone-screen {
+    position: absolute; inset: 12px;
+    width: auto; height: auto;
+    border-radius: 44px; overflow: hidden;
+    background: transparent; isolation: isolate;
+    display: flex; flex-direction: column;
+  }
+
+  /* Glass gloss */
+  .phone-screen::after {
+    content: ''; position: absolute; inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(148deg, rgba(255,255,255,0.055) 0%, transparent 42%);
+    pointer-events: none; z-index: 100;
+  }
+
+  /* Desktop: the overlay spans the notch band (top(14) + height(34) + gap(14)). */
+  .phone-island {
+    height: 62px;
+  }
+
+  /* The visual pill is a ::before so it doesn't affect layout */
+  .phone-island::before {
+    content: '';
+    position: absolute;
+    top: 14px; left: 50%; transform: translateX(-50%);
+    width: 120px; height: 34px;
+    background: #000; border-radius: 20px;
+  }
+}
+
+/* Height of the status-bar / notch region. Matches the .phone-island
+   spacer so full-bleed screens can paint behind it and pad content down. */
+:root { --ward-safe-top: env(safe-area-inset-top, 0px); }
+@media (min-width: 640px) { :root { --ward-safe-top: 62px; } }
+
