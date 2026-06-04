@@ -14,7 +14,7 @@
   "categories": ["finance", "utilities"],
   "icons": [
     {
-      "src": "/icons/icon.svg",
+      "src": "/icons/icon-solid.svg",
       "sizes": "any",
       "type": "image/svg+xml"
     },

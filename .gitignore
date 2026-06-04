@@ -30,9 +30,8 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
-# env files — ignore everything except the no-secret template
+# env files (can opt-in for committing if needed)
 .env*
-!.env.example
 
 # vercel
 .vercel
@@ -44,4 +43,4 @@ next-env.d.ts
 # serwist service worker (generated)
 /public/sw.js
 /public/swe-worker-*.js
-CLAUDE.md
+

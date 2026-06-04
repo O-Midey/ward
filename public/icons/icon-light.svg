@@ -1,13 +1,13 @@
 <svg xmlns="http://www.w3.org/2000/svg" width="80" height="80" viewBox="0 0 80 80" fill="none">
-  <rect width="80" height="80" rx="18" fill="#3B82F6"/>
+  
   
   <path d="M40 6 L68 17 V40 C68 57 55 67 40 72 C25 67 12 57 12 40 V17 Z"
-        fill="rgba(255,255,255,0.15)"
-        stroke="rgba(255,255,255,0.9)"
+        fill="#DDE8FC"
+        stroke="#2563EB"
         stroke-width="2.5"
         stroke-linejoin="round"/>
   <path d="M24 31 L31 52 L40 37 L49 52 L56 31"
-        stroke="#ffffff"
+        stroke="#2563EB"
         stroke-width="4"
         stroke-linecap="round"
         stroke-linejoin="round"
