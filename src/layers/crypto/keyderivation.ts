@@ -16,12 +16,12 @@ export async function deriveKey(password: string, saltBase64: string): Promise<C
   const encoder = new TextEncoder();
   const passwordKey = await crypto.subtle.importKey(
     'raw',
-    encoder.encode(password).buffer as ArrayBuffer,
+    encoder.encode(password),
     'PBKDF2', false, ['deriveKey'],
   );
   const salt = base64ToBuffer(saltBase64);
   return crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt: salt.buffer as ArrayBuffer, iterations: ITERATIONS, hash: HASH },
+    { name: 'PBKDF2', salt, iterations: ITERATIONS, hash: HASH },
     passwordKey,
     { name: 'AES-GCM', length: KEY_LENGTH },
     false,
