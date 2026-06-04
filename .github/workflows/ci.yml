@@ -13,7 +13,7 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 22
           cache: npm
 
       - name: Install dependencies
@@ -33,5 +33,5 @@ jobs:
         env:
           # Production build runs Serwist (webpack); a public RPC backstop is
           # used when no key is provided, so the build needs no secrets.
-          NEXT_PUBLIC_ALCHEMY_KEY: ${{ secrets.NEXT_PUBLIC_ALCHEMY_KEY }}
+          ALCHEMY_KEY: ${{ secrets.ALCHEMY_KEY }}
           SERWIST_SUPPRESS_TURBOPACK_WARNING: '1'

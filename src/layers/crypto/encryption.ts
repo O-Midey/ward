@@ -5,7 +5,10 @@
 
 const ALGORITHM = 'AES-GCM';
 
-type Bytes = Uint8Array;
+// Pin the backing buffer to ArrayBuffer (not the wider ArrayBufferLike, which
+// includes SharedArrayBuffer) so these values are assignable to WebCrypto's
+// BufferSource parameters under TypeScript 5.7+.
+type Bytes = Uint8Array<ArrayBuffer>;
 
 export async function encrypt(
   key: CryptoKey,
@@ -14,10 +17,12 @@ export async function encrypt(
   const iv = new Uint8Array(12);
   crypto.getRandomValues(iv);
 
+  // Pass typed-array views directly (see keyderivation.ts) — extracting `.buffer`
+  // breaks WebCrypto's realm-sensitive ArrayBuffer check on Node 20 under jsdom.
   const encrypted = await crypto.subtle.encrypt(
-    { name: ALGORITHM, iv: iv.buffer as ArrayBuffer },
+    { name: ALGORITHM, iv },
     key,
-    (plaintext as unknown as Uint8Array<ArrayBuffer>).buffer as ArrayBuffer,
+    plaintext,
   );
 
   return {
@@ -35,9 +40,9 @@ export async function decrypt(
   const data = base64ToBuffer(ciphertext);
 
   const decrypted = await crypto.subtle.decrypt(
-    { name: ALGORITHM, iv: iv.buffer as ArrayBuffer },
+    { name: ALGORITHM, iv },
     key,
-    data.buffer as ArrayBuffer,
+    data,
   );
 
   return new Uint8Array(decrypted as ArrayBuffer);

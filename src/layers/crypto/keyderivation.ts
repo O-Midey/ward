@@ -14,26 +14,23 @@ export function generateSalt(): string {
 
 export async function deriveKey(password: string, saltBase64: string): Promise<CryptoKey> {
   const encoder = new TextEncoder();
-  const pwBytes = encoder.encode(password);
-  const pwBuf = toArrayBuffer(pwBytes);
+  // Pass typed-array views directly to WebCrypto. Don't extract `.buffer`: a raw
+  // ArrayBuffer is validated via a realm-sensitive instanceof check that fails on
+  // Node 20 when the data is created in another realm (e.g. jsdom under Vitest).
+  // Views are validated with ArrayBuffer.isView(), which is realm-agnostic.
   const passwordKey = await crypto.subtle.importKey(
     'raw',
-    pwBuf,
+    encoder.encode(password),
     'PBKDF2', false, ['deriveKey'],
   );
-  const saltBytes = base64ToBuffer(saltBase64);
-  const saltBuf = toArrayBuffer(saltBytes);
+  const salt = base64ToBuffer(saltBase64);
   return crypto.subtle.deriveKey(
-    { name: 'PBKDF2', salt: saltBuf, iterations: ITERATIONS, hash: HASH },
+    { name: 'PBKDF2', salt, iterations: ITERATIONS, hash: HASH },
     passwordKey,
     { name: 'AES-GCM', length: KEY_LENGTH },
     false,
     ['encrypt', 'decrypt'],
   );
-}
-
-function toArrayBuffer(view: Uint8Array): ArrayBuffer {
-  return view.buffer.slice(view.byteOffset, view.byteOffset + view.byteLength) as ArrayBuffer;
 }
 
 function bufferToBase64(buf: Uint8Array): string {
@@ -42,7 +39,7 @@ function bufferToBase64(buf: Uint8Array): string {
   return btoa(binary);
 }
 
-function base64ToBuffer(base64: string): Uint8Array {
+function base64ToBuffer(base64: string): Uint8Array<ArrayBuffer> {
   const binary = atob(base64);
   const buf = new Uint8Array(binary.length);
   for (let i = 0; i < binary.length; i++) buf[i] = binary.charCodeAt(i);
