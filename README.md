@@ -74,7 +74,8 @@ Plus: Transaction Confirmation Sheet (bottom sheet with full calldata decode), E
 | PWA | @serwist/next |
 | Indexer | Alchemy |
 | Testing | Vitest + fake-indexeddb |
-| Fonts | Playfair Display, Source Sans 3, JetBrains Mono |
+
+🔗 **Live demo:** [ward-zeta.vercel.app](https://ward-zeta.vercel.app)
 
 ## Setup
 
