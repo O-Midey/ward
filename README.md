@@ -1,6 +1,8 @@
 # Ward
 
-**A non-custodial Ethereum wallet. Sepolia testnet only. No real value.**
+**A non-custodial Ethereum wallet built as a Progressive Web App — keys encrypted locally, signing fully on-device.**
+
+> ⚠️ Sepolia testnet only. Not audited for production. Never use with real funds.
 
 Ward is a portfolio project demonstrating engineering judgment, clean architecture, security literacy, and UI craft. It runs in the browser as a Progressive Web App but is designed to feel like a polished native mobile wallet. The name leans into its meaning — protection, guarding, the ward of a lock that a key fits.
 
